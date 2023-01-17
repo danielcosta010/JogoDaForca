@@ -13,7 +13,7 @@
         <h2 class="text-center">Jogo da forca</h2>
     </div>
     <div class="container">
-
+        <p class="aviso text-center text-danger"></p>
         <!-- div com a classe sprite -->
         <div class="sprite"></div>
         
@@ -24,11 +24,21 @@
             class="entrada"
             placeholder="Palavra secreta" autofocus>
         </div>
+        <button class="text-center reiniciar">Reiniciar</button>
     </div>
 
     <script src="js/jquery.min.js"></script>
     <script src="js/sprite.js"></script>
     <script src="js/jogo.js"></script>
+    <script src="js/controller.js"></script>
+
+    <script>
+        criaController(
+            criaJogo(
+                createSprite('.sprite')
+            ))
+            .inicia();
+    </script>
 
 </body>
 </html>
