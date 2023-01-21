@@ -1,38 +1,35 @@
-var createSprite = function(selector) {
-  var $el = $(selector);
-  var current = 0;
+const createSprite = selector => {
+  let $el = $(selector);
+  let current = 0;
   
-  var frames = [
+  const frames = [
     'frame1', 'frame2', 'frame3', 'frame4', 'frame5',
     'frame6', 'frame7', 'frame8', 'frame9'
   ];
 
-  var last = frames.length - 1;
+  const last = frames.length - 1;
 
-  var moveFrame = function(from, to) {
+  const moveFrame = (from, to) => 
     $el.removeClass(from)
       .addClass(to);
-  }
-  var hasNext = function() {
-    return current + 1 <= last;
-  }
+  
+  const hasNext = () => current + 1 <= last;
 
-  var nextFrame = function() {
-    if(hasNext()) {
-      moveFrame(frames[current], frames[++current]);
-    }
+
+  const nextFrame = () => {
+    if(hasNext()) moveFrame(frames[current], frames[++current]);
+  
   }
-  var reset = function () {
+  const reset =  () => {
     moveFrame(frames[current], frames[0]);
     current = 0;
   }
-  var isFinished = function() {
-    return !hasNext();
-  }
+  const isFinished = () => !hasNext();
+
  return {
-  nextFrame: nextFrame,
-  reset: reset,
-  isFinished: isFinished
+  nextFrame,
+  reset,
+  isFinished
  }
 }
 
