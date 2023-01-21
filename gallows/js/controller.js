@@ -27,11 +27,16 @@ var criaController = function (jogo) {
     // passa para jogo.setPalavraSecreta() o valor digitado pelo jogador e chama o a função `exibeLacunas()` e `mudaPlaceHolder()` definidas no controller. 
 
     var guardaPalavraSecreta = function () {
-
-      jogo.setPalavraSecreta($entrada.val().trim());
-      $entrada.val('');
-      mudaPlaceHolder('chute');
-      exibeLacunas();
+      try {
+        
+        jogo.setPalavraSecreta($entrada.val().trim());
+        $entrada.val('');
+        $aviso.empty();
+        mudaPlaceHolder('chute');
+        exibeLacunas();
+      }catch(err) {
+        $aviso.text(err.message);
+      }
     };
 
     var reinicia = function() {
@@ -42,37 +47,40 @@ var criaController = function (jogo) {
     }
 
     var leChute = function() {
-      jogo.processaChute($entrada.val().trim().substr(0, 1));
-      $entrada.val('');
-      exibeLacunas();
-      if (jogo.ganhouOuPerdeu()) {
-        
+      try {
+        jogo.processaChute($entrada.val().trim().substr(0, 1));
+        $entrada.val('');
+        $aviso.empty();
+        exibeLacunas();
+        if (jogo.ganhouOuPerdeu()) {
+          
           if(jogo.ganhou()) {
             $aviso.text('Parabéns você ganhou!!!')
           } else if(jogo.perdeu) {
             $aviso.text('Que pena você perdeu, tente novamente!!!')
           }
-          $reiniciar.click(() => reinicia()) ;
-        
+        }
+      }catch(err) {
+        $aviso.text(err.message)
       }
-
     }
-
+    
     // faz a associação do evento keypress para capturar a entrada do usuário toda vez que ele teclar ENTER
     var inicia = function () {
-
+      
       $entrada.keypress(function (event) {
         if (event.which == 13) {
-            switch (jogo.getEtapa()) {
-                case 1:
-                  guardaPalavraSecreta()
-                    break;
-                case 2:
-                    leChute();
-                    break;
-            }
+          switch (jogo.getEtapa()) {
+            case 1:
+              guardaPalavraSecreta()
+              break;
+              case 2:
+                leChute();
+                  break;
+          }
         }
       });
+      $reiniciar.click(() => reinicia());
     };
 
     // retorna um objeto com a propriedade inicia, que deve ser chamada assim que o controller for criado. 
